@@ -1,0 +1,99 @@
+========================================================================================
+🎯 Core Productivity Features
+1. Focus Timer
+Pomodoro, Deep Work, or Custom Intervals.
+
+Session tags (e.g., “Study,” “Workout,” “Meditation”).
+
+2. Focus Summary Dashboard
+Daily/weekly summaries with session count, hours, and best time blocks.
+
+Tag-based time breakdown (e.g., 40% study, 30% health).
+
+3. Distraction Tracking
+Manual entry: “Got distracted by Instagram.”
+
+Optional app switching detection using accessibility services (if possible).
+
+========================================================================================
+
+📚 Study & Learning Tools
+4. Subject-Based Time Tracker
+Create subjects or topics (e.g., “C++ DSA,” “Mock Tests”).
+
+Track time and visualize focus hours per topic.
+
+5. Smart Revision Planner
+Auto-suggest revision dates using spaced repetition for marked topics.
+
+Progress bar for each subject based on session tags.
+
+========================================================================================
+
+🧘‍♂️ Focus & Mindfulness
+6. Mindful Break System
+Offers options during breaks: meditate, stretch, hydrate, journal.
+
+Optional breathing animations or quick meditations (1-5 mins).
+
+7. Focus Reflection Journal
+After each session: “How did it go?” with mood slider + notes.
+
+Helps in identifying best times & focus patterns.
+
+========================================================================================
+
+✅ Habit Tracking & Health
+8. Custom Habit Tracker
+Daily/weekly/monthly habit creation with reminders.
+
+Support for checkboxes, counters, and timers (e.g., "Drink 3L water").
+
+9. Wellness Streaks
+Habit streaks for sleep, hydration, posture, screen breaks.
+
+Visual streak chains with motivational boosts.
+
+10. Health Check-ins
+Morning & night check-in: sleep quality, energy level, stress level.
+
+Helps correlate focus effectiveness with health habits.
+
+========================================================================================
+
+📊 Goal Setting & Analytics
+11. Goal Planner
+Define weekly/monthly goals like “Study 15 hours” or “Meditate 5 times.”
+
+Track % progress and get alerts on slow progress.
+
+12. Focus Insights
+Graphs for:
+
+Time spent per category
+
+Mood vs. focus
+
+Habits vs. performance
+
+========================================================================================
+
+🎮 Gamification & Motivation
+13. XP and Levels
+Earn XP for completing sessions, logging habits, and hitting streaks.
+
+Level up with unlockables (themes, quotes, audio tracks).
+
+14. Motivation Vault
+Daily quote, personalized based on user's focus style.
+
+Option to journal thoughts about the quote for reflection.
+
+========================================================================================
+
+🛠️ Optional Features You Could Add Later
+Offline-First Mode (important for privacy-focused users).
+
+Theme Customizer (light, dark, nature, minimal).
+
+Exportable Reports (for students or personal analytics).
