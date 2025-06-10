@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hey_champ_app/features/chatbot/application/chatbot_controller.dart';
 import 'package:hey_champ_app/features/reminder/application/reminder_model.dart';
 import 'package:hey_champ_app/features/study_session/application/focus_session_model.dart';
 import 'package:hey_champ_app/features/study_session/application/focus_session_controller.dart';
@@ -13,9 +14,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -32,11 +35,18 @@ void main() async {
   await Hive.openBox<Subject>('subjects');
   await Hive.openBox<FocusSession>('sessions');
 
+  // Api key
+  String apiKey = dotenv.get('MY_GEMINI_API_KEY');
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => SubjectController()),
         ChangeNotifierProvider(create: (_) => FocusSessionController()),
+        ChangeNotifierProvider(create: (_) => ChatbotController(
+            apiKey,
+          ),
+        ),
       ],
       child: const MyApp(),
     ),

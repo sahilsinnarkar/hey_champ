@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hey_champ_app/features/auth/application/auth_service.dart';
 import 'package:hey_champ_app/features/auth/presentation/signin_screen.dart';
 import 'package:hey_champ_app/features/auth/presentation/signup_screen.dart';
+import 'package:hey_champ_app/features/chatbot/presentation/chatbot_screen.dart';
 import 'package:hey_champ_app/features/home/presentation/home_screen.dart';
 import 'dart:async';
 import 'package:flutter/widgets.dart';
@@ -75,6 +76,11 @@ final router = GoRouter(
         final subject = state.extra as Subject; // ✅ Cast safely
         return SubjectDetailScreen(subject: subject); // ✅ Pass it to screen
       },
+    ),
+    GoRoute(
+      path: '/chatbot-screen',
+      name: 'chatbot-screen',
+      builder: (context, state) => ChatbotScreen(),
     ),
   ],
 );
