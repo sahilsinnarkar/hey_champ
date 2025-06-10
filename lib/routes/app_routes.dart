@@ -8,15 +8,19 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:hey_champ_app/features/reminder/presentation/new_reminder_screen.dart';
 import 'package:hey_champ_app/features/reminder/presentation/reminder_screen.dart';
+import 'package:hey_champ_app/features/study_session/application/subject_model.dart';
+import 'package:hey_champ_app/features/study_session/presentation/add_edit_subject_screen.dart';
+import 'package:hey_champ_app/features/study_session/presentation/subject_detail_screen.dart';
+import 'package:hey_champ_app/features/study_session/presentation/subject_list_screen.dart';
 
 final router = GoRouter(
-
   initialLocation: '/signin',
 
   refreshListenable: GoRouterRefreshStream(authServices.value.authStateChanges),
   redirect: (BuildContext context, GoRouterState state) {
     final loggedIn = authServices.value.currentUser != null;
-    final goingToSignIn = state.fullPath == '/signin' || state.fullPath == '/signup';
+    final goingToSignIn =
+        state.fullPath == '/signin' || state.fullPath == '/signup';
 
     if (!loggedIn && !goingToSignIn) {
       return '/signin';
@@ -54,8 +58,25 @@ final router = GoRouter(
       name: 'new-reminder',
       builder: (context, state) => NewReminderScreen(),
     ),
-  ]
-
+    GoRoute(
+      path: '/subject-screen',
+      name: 'subject-screen',
+      builder: (context, state) => SubjectListScreen(),
+    ),
+    GoRoute(
+      path: '/add-edit-subject-screen',
+      name: 'add-edit-subject-screen',
+      builder: (context, state) => AddEditSubjectScreen(),
+    ),
+    GoRoute(
+      path: '/subject-detail-screen',
+      name: 'subject-detail-screen',
+      builder: (context, state) {
+        final subject = state.extra as Subject; // ✅ Cast safely
+        return SubjectDetailScreen(subject: subject); // ✅ Pass it to screen
+      },
+    ),
+  ],
 );
 
 class GoRouterRefreshStream extends ChangeNotifier {

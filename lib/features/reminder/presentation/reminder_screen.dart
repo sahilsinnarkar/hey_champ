@@ -13,7 +13,6 @@ class ReminderScreen extends StatefulWidget {
 }
 
 class _ReminderScreenState extends State<ReminderScreen> {
-
   @override
   Widget build(BuildContext context) {
     final reminders = ReminderController.getReminders();
@@ -58,36 +57,56 @@ class _ReminderScreenState extends State<ReminderScreen> {
                     ),
                   )
                 : Expanded(
-                  child: ListView.builder(
+                    child: ListView.builder(
                       itemCount: reminders.length,
                       itemBuilder: (context, index) {
                         final reminder = reminders[index];
-                        return ListTile(
-                          title: Text(
-                            reminder.title,
-                            style: TextStyle(
-                              color: AppColors.primaryText,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                        return Dismissible(
+                          key: Key(reminder.hashCode.toString()),
+                          direction: DismissDirection.endToStart,
+                          background: Container(
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            color: Colors.red,
+                            child: const Icon(
+                              Icons.delete,
+                              color: Colors.white,
                             ),
                           ),
-                          subtitle: Text(
-                            DateFormat('MMM d, yyyy • hh:mm a').format(reminder.dateTime).toString(),
-                            style: TextStyle(
-                              color: AppColors.primaryText,
+                          onDismissed: (direction) async {
+                            await ReminderController.deleteReminder(reminder);
+                            setState(() {}); // Refresh UI
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Reminder deleted")),
+                            );
+                          },
+                          child: ListTile(
+                            title: Text(
+                              reminder.title,
+                              style: TextStyle(
+                                color: AppColors.primaryText,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          trailing: Text(
-                            reminder.repeat,
-                            style: TextStyle(
-                              color: AppColors.primaryText,
-                              fontSize: 15,
+                            subtitle: Text(
+                              DateFormat(
+                                'MMM d, yyyy • hh:mm a',
+                              ).format(reminder.dateTime).toString(),
+                              style: TextStyle(color: AppColors.primaryText),
+                            ),
+                            trailing: Text(
+                              reminder.repeat,
+                              style: TextStyle(
+                                color: AppColors.primaryText,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
                         );
                       },
                     ),
-                ),
+                  ),
           ],
         ),
         floatingActionButton: FloatingActionButton(

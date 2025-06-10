@@ -138,10 +138,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       TextButton(
                         onPressed: () {
-                          router.push('/reminder');
+                          router.push('/subject-screen');
                         }, 
                         child: Text(
-                          "Reminder",
+                          "Subjects",
                           style: TextStyle(
                             fontSize: 30,
                           ),

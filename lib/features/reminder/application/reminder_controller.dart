@@ -37,7 +37,6 @@ class ReminderController {
     const notificationDetails = NotificationDetails(android: androidDetails);
     final scheduledDate = tz.TZDateTime.from(reminder.dateTime, tz.local);
 
-
     await _notificationsPlugin.zonedSchedule(
       reminder.hashCode,
       'Reminder: ${reminder.title}',
@@ -60,18 +59,31 @@ class ReminderController {
     await _notificationsPlugin.initialize(settings);
   }
 
+  static Future<void> deleteReminder(Reminder reminder) async {
+    // Cancel the scheduled notification
+    await _notificationsPlugin.cancel(reminder.hashCode);
+
+    // Delete from Hive
+    final key = _box.keys.firstWhere(
+      (k) => _box.get(k) == reminder,
+      orElse: () => null,
+    );
+
+    if (key != null) {
+      await _box.delete(key);
+    }
+  }
 
   static DateTimeComponents? _getRepeatInterval(String repeat) {
-  switch (repeat) {
-    case 'Daily':
-      return DateTimeComponents.time;
-    case 'Weekly':
-      return DateTimeComponents.dayOfWeekAndTime;
-    case 'Monthly':
-      return DateTimeComponents.dayOfMonthAndTime;
-    default:
-      return null; // One-time
+    switch (repeat) {
+      case 'Daily':
+        return DateTimeComponents.time;
+      case 'Weekly':
+        return DateTimeComponents.dayOfWeekAndTime;
+      case 'Monthly':
+        return DateTimeComponents.dayOfMonthAndTime;
+      default:
+        return null; // One-time
+    }
   }
-}
-
 }
