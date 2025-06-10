@@ -6,7 +6,7 @@ import 'package:hey_champ_app/features/auth/presentation/signup_screen.dart';
 import 'package:hey_champ_app/features/chatbot/presentation/chatbot_screen.dart';
 import 'package:hey_champ_app/features/daily_habit/presentation/create_habit_screen.dart';
 import 'package:hey_champ_app/features/daily_habit/presentation/daily_haibit_tracker_list_screen.dart';
-import 'package:hey_champ_app/features/home/presentation/home_screen.dart';
+import 'package:hey_champ_app/home/presentation/home_screen.dart';
 import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:hey_champ_app/features/reminder/presentation/new_reminder_screen.dart';
