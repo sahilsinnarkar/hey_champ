@@ -6,6 +6,7 @@ import 'package:hey_champ_app/features/auth/presentation/signup_screen.dart';
 import 'package:hey_champ_app/features/chatbot/presentation/chatbot_screen.dart';
 import 'package:hey_champ_app/features/daily_habit/presentation/create_habit_screen.dart';
 import 'package:hey_champ_app/features/daily_habit/presentation/daily_haibit_tracker_list_screen.dart';
+import 'package:hey_champ_app/features/expenses/presentation/expenses_list_screen.dart';
 import 'package:hey_champ_app/home/presentation/home_screen.dart';
 import 'dart:async';
 import 'package:flutter/widgets.dart';
@@ -116,6 +117,11 @@ final router = GoRouter(
       path: '/take-note-screen',
       name: 'take-note-screen',
       builder: (context, state) => TakeNoteScreen(),
+    ),
+    GoRoute(
+      path: '/expenses-list-screen',
+      name: 'expenses-list-screen',
+      builder: (context, state) => ExpensesListScreen(),
     ),
   ],
 );

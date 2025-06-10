@@ -24,4 +24,7 @@ class AppColors {
   static const Color buttonBackground = Color(0xFF1F1F1F);
   static const Color buttonText = Colors.white;
   static const Color buttonDisabled = Color(0xFF3A3A3A);
+
+  // Shadow Color
+  static const Color whiteShadow = Color.fromARGB(255, 221, 221, 221);
 }
