@@ -9,6 +9,7 @@ import 'package:hey_champ_app/features/study_session/application/focus_session_m
 import 'package:hey_champ_app/features/study_session/application/focus_session_controller.dart';
 import 'package:hey_champ_app/features/study_session/application/subject_controller.dart';
 import 'package:hey_champ_app/features/study_session/application/subject_model.dart';
+import 'package:hey_champ_app/features/take_note/application/note_model.dart';
 import 'package:hey_champ_app/features/todo/application/todo_controller.dart';
 import 'package:hey_champ_app/features/todo/application/todo_model.dart';
 import 'package:hey_champ_app/routes/app_routes.dart';
@@ -46,6 +47,7 @@ void main() async {
   FocusSessionAdapter: 2
   TodoAdapter: 3
   HabitAdapter: 4
+  NoteAdapter: 5
 
   */
 
@@ -67,6 +69,10 @@ void main() async {
   // Daily habit feature
   Hive.registerAdapter(HabitAdapter());
   await Hive.openBox<Habit>('daily-habits');
+
+  // Note feature
+  Hive.registerAdapter(NoteAdapter());
+  await Hive.openBox<Note>('notes');
 
   // Api key
   String apiKey = dotenv.get('MY_GEMINI_API_KEY');

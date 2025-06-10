@@ -15,6 +15,8 @@ import 'package:hey_champ_app/features/study_session/application/subject_model.d
 import 'package:hey_champ_app/features/study_session/presentation/add_edit_subject_screen.dart';
 import 'package:hey_champ_app/features/study_session/presentation/subject_detail_screen.dart';
 import 'package:hey_champ_app/features/study_session/presentation/subject_list_screen.dart';
+import 'package:hey_champ_app/features/take_note/presentation/note_list_screen.dart';
+import 'package:hey_champ_app/features/take_note/presentation/take_note_screen.dart';
 import 'package:hey_champ_app/features/todo/presentation/todo_screen.dart';
 
 final router = GoRouter(
@@ -104,6 +106,16 @@ final router = GoRouter(
       path: '/habit-detail-screen',
       name: 'habit-detail-screen',
       builder: (context, state) => TodoScreen(),
+    ),
+    GoRoute(
+      path: '/note-list-screen',
+      name: 'note-list-screen',
+      builder: (context, state) => NoteListScreen(),
+    ),
+    GoRoute(
+      path: '/take-note-screen',
+      name: 'take-note-screen',
+      builder: (context, state) => TakeNoteScreen(),
     ),
   ],
 );
