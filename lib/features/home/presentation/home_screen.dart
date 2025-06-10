@@ -138,10 +138,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       TextButton(
                         onPressed: () {
-                          router.push('/todo-screen');
+                          router.push('/daily-habit-tracker-list-screen');
                         }, 
                         child: Text(
-                          "Todo",
+                          "Daily Habits",
                           style: TextStyle(
                             fontSize: 30,
                           ),

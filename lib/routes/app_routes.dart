@@ -4,6 +4,8 @@ import 'package:hey_champ_app/features/auth/application/auth_service.dart';
 import 'package:hey_champ_app/features/auth/presentation/signin_screen.dart';
 import 'package:hey_champ_app/features/auth/presentation/signup_screen.dart';
 import 'package:hey_champ_app/features/chatbot/presentation/chatbot_screen.dart';
+import 'package:hey_champ_app/features/daily_habit/presentation/create_habit_screen.dart';
+import 'package:hey_champ_app/features/daily_habit/presentation/daily_haibit_tracker_list_screen.dart';
 import 'package:hey_champ_app/features/home/presentation/home_screen.dart';
 import 'dart:async';
 import 'package:flutter/widgets.dart';
@@ -86,6 +88,21 @@ final router = GoRouter(
     GoRoute(
       path: '/todo-screen',
       name: 'todo-screen',
+      builder: (context, state) => TodoScreen(),
+    ),
+    GoRoute(
+      path: '/daily-habit-tracker-list-screen',
+      name: 'daily-habit-tracker-list-screen',
+      builder: (context, state) => DailyHabitTrackerListScreen(),
+    ),
+    GoRoute(
+      path: '/create-habit-screen',
+      name: 'create-habit-screen',
+      builder: (context, state) => CreateHabitScreen(),
+    ),
+    GoRoute(
+      path: '/habit-detail-screen',
+      name: 'habit-detail-screen',
       builder: (context, state) => TodoScreen(),
     ),
   ],
