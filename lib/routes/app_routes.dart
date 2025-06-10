@@ -13,6 +13,7 @@ import 'package:hey_champ_app/features/study_session/application/subject_model.d
 import 'package:hey_champ_app/features/study_session/presentation/add_edit_subject_screen.dart';
 import 'package:hey_champ_app/features/study_session/presentation/subject_detail_screen.dart';
 import 'package:hey_champ_app/features/study_session/presentation/subject_list_screen.dart';
+import 'package:hey_champ_app/features/todo/presentation/todo_screen.dart';
 
 final router = GoRouter(
   initialLocation: '/signin',
@@ -81,6 +82,11 @@ final router = GoRouter(
       path: '/chatbot-screen',
       name: 'chatbot-screen',
       builder: (context, state) => ChatbotScreen(),
+    ),
+    GoRoute(
+      path: '/todo-screen',
+      name: 'todo-screen',
+      builder: (context, state) => TodoScreen(),
     ),
   ],
 );

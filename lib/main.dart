@@ -7,6 +7,8 @@ import 'package:hey_champ_app/features/study_session/application/focus_session_m
 import 'package:hey_champ_app/features/study_session/application/focus_session_controller.dart';
 import 'package:hey_champ_app/features/study_session/application/subject_controller.dart';
 import 'package:hey_champ_app/features/study_session/application/subject_model.dart';
+import 'package:hey_champ_app/features/todo/application/todo_controller.dart';
+import 'package:hey_champ_app/features/todo/application/todo_model.dart';
 import 'package:hey_champ_app/routes/app_routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -18,36 +20,50 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // ENV
   await dotenv.load();
 
+  // Orientation
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  // Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  // Time
   tz.initializeTimeZones();
   final appDocumentDir = await getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
 
+  // Reminder feature
   Hive.registerAdapter(ReminderAdapter());
   await Hive.openBox<Reminder>('reminders');
+
+  // Subject and session feature
   await Hive.initFlutter();
   Hive.registerAdapter(SubjectAdapter());
   Hive.registerAdapter(FocusSessionAdapter());
   await Hive.openBox<Subject>('subjects');
   await Hive.openBox<FocusSession>('sessions');
 
+  // Todo feature
+  Hive.registerAdapter(TodoAdapter());
+  await Hive.openBox<Todo>('todos');
+
   // Api key
   String apiKey = dotenv.get('MY_GEMINI_API_KEY');
 
   runApp(
+    // Providers
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => SubjectController()),
         ChangeNotifierProvider(create: (_) => FocusSessionController()),
-        ChangeNotifierProvider(create: (_) => ChatbotController(
-            apiKey,
-          ),
-        ),
+        ChangeNotifierProvider(create: (_) => ChatbotController(apiKey)),
+        ChangeNotifierProvider(create: (_) => TodoController()),
       ],
+      
+      // App
       child: const MyApp(),
     ),
   );

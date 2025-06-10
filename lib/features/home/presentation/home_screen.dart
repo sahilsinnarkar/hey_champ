@@ -138,10 +138,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       TextButton(
                         onPressed: () {
-                          router.push('/chatbot-screen');
+                          router.push('/todo-screen');
                         }, 
                         child: Text(
-                          "Chatbot",
+                          "Todo",
                           style: TextStyle(
                             fontSize: 30,
                           ),
