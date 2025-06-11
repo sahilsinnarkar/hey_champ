@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:hey_champ_app/common/widgets/my_button.dart';
+import 'package:hey_champ_app/common/widgets/my_textfield.dart';
+import 'package:hey_champ_app/common/widgets/screen_name.dart';
+import 'package:hey_champ_app/core/constants/color_constants.dart';
 import 'package:hey_champ_app/features/take_note/application/note_model.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
@@ -86,116 +90,259 @@ class _TakeNoteScreenState extends State<TakeNoteScreen> {
       ),
     );
 
-    // --- Change Starts Here ---
-    // Use Printing.layoutPdf to invoke the platform's print/share dialog
-    // This will give the user the option to save to a PDF (e.g., in Downloads) or print.
     await Printing.layoutPdf(
       onLayout: (format) async => pdf.save(),
       name: "${_titleController.text}.pdf", // Suggests a filename to the system
     );
 
-    // No need for ScaffoldMessenger.of(context).showSnackBar here
-    // because the system's UI handles the success/failure feedback for saving/printing.
-    // If you want some initial feedback, you can add it before Printing.layoutPdf:
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text("Opening PDF save/share options...")),
     );
-    // --- Change Ends Here ---
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.existingNote == null ? "Create Note" : "Edit Note"),
-        actions: [
-          IconButton(icon: Icon(Icons.picture_as_pdf), onPressed: _exportAsPDF),
-          IconButton(icon: Icon(Icons.save), onPressed: _saveNote),
-        ],
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: ListView(
+    final double h = MediaQuery.of(context).size.height;
+    final double w = MediaQuery.of(context).size.width;
+
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: AppColors.background,
+        body: Column(
           children: [
-            TextField(
-              controller: _titleController,
-              decoration: InputDecoration(labelText: 'Title'),
+            ScreenName(
+              name: widget.existingNote == null ? "Create Note" : "Edit Note",
             ),
-            SizedBox(height: 8),
-            TextField(
-              controller: _contentController,
-              maxLines: 10,
-              decoration: InputDecoration(labelText: 'Content'),
-              style: TextStyle(
-                fontFamily: _fontFamily,
-                fontSize: _fontSize,
-                fontWeight: _isBold ? FontWeight.bold : FontWeight.normal,
-                fontStyle: _isItalic ? FontStyle.italic : FontStyle.normal,
-                color: _textColor,
-              ),
-              textAlign: _textAlign == 'center'
-                  ? TextAlign.center
-                  : _textAlign == 'right'
-                  ? TextAlign.right
-                  : TextAlign.left,
-            ),
-            SizedBox(height: 10),
-            Row(
-              children: [
-                TextButton(
-                  child: Text(_isBold ? "Bold ✓" : "Bold"),
-                  onPressed: () => setState(() => _isBold = !_isBold),
-                ),
-                TextButton(
-                  child: Text(_isItalic ? "Italic ✓" : "Italic"),
-                  onPressed: () => setState(() => _isItalic = !_isItalic),
-                ),
-                TextButton(
-                  child: Text("Color"),
-                  onPressed: () async {
-                    final color = await showDialog(
-                      context: context,
-                      builder: (_) => AlertDialog(
-                        title: Text("Pick Text Color"),
-                        content: SingleChildScrollView(
-                          child: BlockPicker(
-                            pickerColor: _textColor,
-                            onColorChanged: (color) =>
-                                Navigator.pop(context, color),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                child: ListView(
+                  children: [
+                    MyTextField(
+                      controller: _titleController,
+                      hintText: "Title",
+                      height: h * 0.06,
+                    ),
+                    SizedBox(height: 8),
+                    Container(
+                      height: 300, // Fixed height
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryText,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: TextField(
+                        controller: _contentController,
+                        expands: true,
+                        maxLines: null,
+                        minLines: null,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          labelText: 'Content',
+                          labelStyle: TextStyle(
+                            color: AppColors.buttonDisabled,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
+                        style: TextStyle(
+                          fontFamily: _fontFamily,
+                          fontSize: _fontSize,
+                          fontWeight: _isBold
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                          fontStyle: _isItalic
+                              ? FontStyle.italic
+                              : FontStyle.normal,
+                          color: _textColor,
+                        ),
+                        textAlign: _textAlign == 'center'
+                            ? TextAlign.center
+                            : _textAlign == 'right'
+                            ? TextAlign.right
+                            : TextAlign.left,
                       ),
-                    );
-                    if (color != null) setState(() => _textColor = color);
-                  },
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      children: [
+                        TextButton(
+                          child: Text(
+                            _isBold ? "Bold ✔️" : "Bold",
+                            style: TextStyle(
+                              color: AppColors.primaryText,
+                              fontSize: 18,
+                            ),
+                          ),
+                          onPressed: () => setState(() => _isBold = !_isBold),
+                        ),
+                        TextButton(
+                          child: Text(
+                            _isItalic ? "Italic ✔️" : "Italic",
+                            style: TextStyle(
+                              color: AppColors.primaryText,
+                              fontSize: 18,
+                            ),
+                          ),
+                          onPressed: () =>
+                              setState(() => _isItalic = !_isItalic),
+                        ),
+                        TextButton(
+                          child: Text(
+                            "Color",
+                            style: TextStyle(
+                              color: AppColors.primaryText,
+                              fontSize: 18,
+                            ),
+                          ),
+                          onPressed: () async {
+                            final color = await showDialog(
+                              context: context,
+                              builder: (_) => AlertDialog(
+                                title: Text(
+                                  "Pick Text Color",
+                                  style: TextStyle(
+                                    color: AppColors.background,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                content: SingleChildScrollView(
+                                  child: BlockPicker(
+                                    pickerColor: _textColor,
+                                    onColorChanged: (color) =>
+                                        Navigator.pop(context, color),
+                                  ),
+                                ),
+                              ),
+                            );
+                            if (color != null) {
+                              setState(() => _textColor = color);
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      width: w,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          style: BorderStyle.solid,
+                          width: 2,
+                          color: AppColors.primaryText,
+                        ),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        // Removes default underline
+                        child: DropdownButton<String>(
+                          value: _fontFamily,
+                          isExpanded: true,
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: AppColors.primaryText,
+                          ),
+                          dropdownColor: AppColors.background,
+                          style: TextStyle(
+                            color: AppColors.primaryText,
+                            fontSize: 15,
+                          ),
+                          items:
+                              [
+                                    'Roboto',
+                                    'OpenSans',
+                                    'Lato',
+                                    'Montserrat',
+                                    'Courier',
+                                  ]
+                                  .map(
+                                    (font) => DropdownMenuItem(
+                                      value: font,
+                                      child: Text(font),
+                                    ),
+                                  )
+                                  .toList(),
+                          onChanged: (value) =>
+                              setState(() => _fontFamily = value!),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      "Font Size",
+                      style: TextStyle(
+                        color: AppColors.primaryText,
+                        fontSize: 18,
+                      ),
+                    ),
+                    Slider(
+                      min: 12,
+                      max: 30,
+                      value: _fontSize,
+                      onChanged: (val) => setState(() => _fontSize = val),
+                      label: "Font Size",
+                      activeColor: AppColors.primaryText,
+                      inactiveColor: AppColors.secondaryText,
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      width: w,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          style: BorderStyle.solid,
+                          width: 2,
+                          color: AppColors.primaryText,
+                        ),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: _textAlign,
+                          isExpanded: true,
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: AppColors.primaryText,
+                          ),
+                          dropdownColor: AppColors.background,
+                          style: TextStyle(
+                            color: AppColors.primaryText,
+                            fontSize: 15,
+                          ),
+                          items: ['left', 'center', 'right']
+                              .map(
+                                (align) => DropdownMenuItem(
+                                  value: align,
+                                  child: Text(align),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (val) => setState(() => _textAlign = val!),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        MyButton(
+                          text: "Save", 
+                          onPressed: _saveNote,
+                          width: w * 0.45,
+                          height: h * 0.04,
+                        ),
+                        MyButton(
+                          text: "PDF", 
+                          onPressed: _exportAsPDF,
+                          width: w * 0.45,
+                          height: h * 0.04,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            DropdownButton<String>(
-              value: _fontFamily,
-              items: ['Roboto', 'OpenSans', 'Lato', 'Montserrat', 'Courier']
-                  .map(
-                    (font) => DropdownMenuItem(value: font, child: Text(font)),
-                  )
-                  .toList(),
-              onChanged: (value) => setState(() => _fontFamily = value!),
-            ),
-            Slider(
-              min: 12,
-              max: 30,
-              value: _fontSize,
-              onChanged: (val) => setState(() => _fontSize = val),
-              label: "Font Size",
-            ),
-            DropdownButton<String>(
-              value: _textAlign,
-              items: ['left', 'center', 'right']
-                  .map(
-                    (align) =>
-                        DropdownMenuItem(value: align, child: Text(align)),
-                  )
-                  .toList(),
-              onChanged: (val) => setState(() => _textAlign = val!),
+              ),
             ),
           ],
         ),

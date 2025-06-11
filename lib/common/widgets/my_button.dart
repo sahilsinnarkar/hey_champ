@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hey_champ_app/core/constants/color_constants.dart';
 
 class MyButton extends StatelessWidget {
   final String text;
@@ -32,7 +33,7 @@ class MyButton extends StatelessWidget {
           child: Text(
             text,
             style: TextStyle(
-              color: isFilled ? Colors.black : Colors.white,
+              color: isFilled ? AppColors.background : AppColors.primaryText,
               fontWeight: FontWeight.bold,
               fontSize: 22,
             ),

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hey_champ_app/common/widgets/my_button.dart';
 import 'package:hey_champ_app/common/widgets/my_date_time_fields.dart';
 import 'package:hey_champ_app/common/widgets/my_textfield.dart';
+import 'package:hey_champ_app/common/widgets/screen_name.dart';
 import 'package:hey_champ_app/core/constants/color_constants.dart';
 import 'package:hey_champ_app/features/reminder/application/reminder_controller.dart';
 import 'package:hey_champ_app/features/reminder/application/reminder_model.dart';
@@ -28,6 +29,7 @@ class _NewReminderScreenState extends State<NewReminderScreen> {
 
   void _pickDate() async {
     final picked = await showDatePicker(
+      barrierColor: AppColors.background.withAlpha(200),
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
@@ -38,6 +40,7 @@ class _NewReminderScreenState extends State<NewReminderScreen> {
 
   void _pickTime() async {
     final picked = await showTimePicker(
+      barrierColor: AppColors.background.withAlpha(200),
       context: context,
       initialTime: TimeOfDay.now(),
     );
@@ -83,33 +86,7 @@ class _NewReminderScreenState extends State<NewReminderScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                padding: const EdgeInsets.all(5),
-                alignment: Alignment.topLeft,
-                child: Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        context.pop();
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        color: AppColors.primaryText,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      "New Reminder",
-                      style: TextStyle(
-                        color: AppColors.primaryText,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
+              ScreenName(name: "New Reminder"),
               Container(
                 padding: const EdgeInsets.all(10),
                 width: w,
@@ -123,7 +100,7 @@ class _NewReminderScreenState extends State<NewReminderScreen> {
                     ),
                     const SizedBox(height: 20),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         MyDatePickerField(
                           onTap: () {
@@ -141,16 +118,20 @@ class _NewReminderScreenState extends State<NewReminderScreen> {
                     ),
                     const SizedBox(height: 20),
                     Container(
-                      height: 60,
+                      padding: EdgeInsets.only(left: 12),
+                      height: h * 0.08,
                       width: w,
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: AppColors.primaryText,),
+                          style: BorderStyle.solid,
+                          width: 2,
+                          color: AppColors.primaryText,
+                        ),
                         color: AppColors.background,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(15),
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
                             "Repeat: ",
@@ -170,8 +151,10 @@ class _NewReminderScreenState extends State<NewReminderScreen> {
                             ),
                             items: ['None', 'Daily', 'Weekly', 'Monthly']
                                 .map(
-                                  (e) =>
-                                      DropdownMenuItem(value: e, child: Text(e)),
+                                  (e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(e),
+                                  ),
                                 )
                                 .toList(),
                             onChanged: (value) {
@@ -184,10 +167,7 @@ class _NewReminderScreenState extends State<NewReminderScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    MyButton(
-                      onPressed: _saveReminder, 
-                      text: "Save",
-                    ),
+                    MyButton(onPressed: _saveReminder, text: "Save"),
                   ],
                 ),
               ),
