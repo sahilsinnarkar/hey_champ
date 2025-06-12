@@ -43,7 +43,7 @@ MY_GEMINI_API_KEY=your_api_key_here
 ▶️ Getting Started
 1. Clone the Repository
    ```
-   git clone https://github.com/sahilsinnarkarr/hey_champ_app.git
+   git clone https://github.com/sahilsinnarkarr/hey_champ.git
    cd hey_champ_app
    ````
 2. Install Dependencies
@@ -54,3 +54,11 @@ MY_GEMINI_API_KEY=your_api_key_here
    `dart run build_runner build`
 5. Run the app
   `flutter run`
+
+⚙️ VS Code Setup
+This project was built using Visual Studio Code. If you’re using Android Studio, make sure the IDE handles .env, build_runner, and Firebase integration accordingly.
+
+📌 Notes
+- This project uses flutter_launcher_icons to generate app icons.
+- firebase_options.dart is auto-generated and should not be modified manually.
+- You can add more environment variables in .env and access them using flutter_dotenv.
