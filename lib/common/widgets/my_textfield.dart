@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import '../../core/constants/color_constants.dart';
 
+// ignore: must_be_immutable
 class MyTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final double height;
   final void Function(String)? onSubmitted;
+  TextInputType keyboardType;
 
-  const MyTextField({
+  MyTextField({
     super.key,
     required this.controller,
     required this.hintText,
     this.height = 50,
     this.onSubmitted,
+    this.keyboardType = TextInputType.text,
   });
 
   @override

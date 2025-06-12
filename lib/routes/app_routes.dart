@@ -82,8 +82,8 @@ final router = GoRouter(
       path: '/subject-detail-screen',
       name: 'subject-detail-screen',
       builder: (context, state) {
-        final subject = state.extra as Subject; // ✅ Cast safely
-        return SubjectDetailScreen(subject: subject); // ✅ Pass it to screen
+        final subject = state.extra as Subject;
+        return SubjectDetailScreen(subject: subject);
       },
     ),
     GoRoute(
