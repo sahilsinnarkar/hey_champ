@@ -8,6 +8,7 @@ import 'package:hey_champ_app/features/daily_habit/application/habit_model.dart'
 import 'package:hey_champ_app/features/daily_habit/presentation/create_habit_screen.dart';
 import 'package:hey_champ_app/features/daily_habit/presentation/daily_haibit_tracker_list_screen.dart';
 import 'package:hey_champ_app/features/daily_habit/presentation/habit_detail_screen.dart';
+import 'package:hey_champ_app/features/expenses/presentation/expense_detail_screen.dart';
 import 'package:hey_champ_app/features/expenses/presentation/expenses_list_screen.dart';
 import 'package:hey_champ_app/home/presentation/home_screen.dart';
 import 'dart:async';
@@ -132,6 +133,11 @@ final router = GoRouter(
       path: '/expenses-list-screen',
       name: 'expenses-list-screen',
       builder: (context, state) => ExpensesListScreen(),
+    ),
+    GoRoute(
+      path: '/expense-detail-screen',
+      name: 'expense-detail-screen',
+      builder: (context, state) => ExpenseDetailScreen(),
     ),
   ],
 );
