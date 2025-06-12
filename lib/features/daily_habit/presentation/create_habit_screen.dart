@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hey_champ_app/common/widgets/my_button.dart';
+import 'package:hey_champ_app/common/widgets/my_textfield.dart';
+import 'package:hey_champ_app/common/widgets/screen_name.dart';
+import 'package:hey_champ_app/core/constants/color_constants.dart';
 import 'package:hey_champ_app/features/daily_habit/application/habit_model.dart';
 import 'package:hey_champ_app/routes/app_routes.dart';
 import 'package:provider/provider.dart';
@@ -20,14 +24,16 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
   int _days = 7;
 
   void _addHabit() {
-    if (_titleController.text.trim().isEmpty || _tasks.isEmpty || _days < 7) return;
+    if (_titleController.text.trim().isEmpty || _tasks.isEmpty || _days < 7) {
+      return;
+    }
 
     final startDate = DateTime.now();
     final dailyStatus = {
       for (int i = 0; i < _days; i++)
         startDate.add(Duration(days: i)).toIso8601String().split('T')[0]: {
-          for (var t in _tasks) t: false
-        }
+          for (var t in _tasks) t: false,
+        },
     };
 
     final habit = Habit(
@@ -40,58 +46,121 @@ class _CreateHabitScreenState extends State<CreateHabitScreen> {
     );
 
     context.read<HabitController>().addHabit(habit);
-    Navigator.pop(context);
+    router.pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Create Habit")),
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
+    final h = MediaQuery.of(context).size.height;
+
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: AppColors.background,
+        body: Column(
           children: [
-            TextField(controller: _titleController, decoration: InputDecoration(labelText: "Habit Title")),
-            Row(
-              children: [
-                Text("Days: "),
-                Expanded(
-                  child: Slider(
-                    value: _days.toDouble(),
-                    min: 7,
-                    max: 30,
-                    divisions: 23,
-                    label: _days.toString(),
-                    onChanged: (v) => setState(() => _days = v.toInt()),
-                  ),
+            ScreenName(name: "Create Habit"),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 16, right: 16),
+                child: Column(
+                  children: [
+                    MyTextField(
+                      controller: _titleController,
+                      hintText: "Habit Title",
+                      height: h * 0.06,
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Text(
+                          "Days: ",
+                          style: TextStyle(
+                            color: AppColors.primaryText,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Expanded(
+                          child: Slider(
+                            activeColor: AppColors.divider,
+                            inactiveColor: AppColors.divider,
+                            thumbColor: AppColors.primaryText,
+                            value: _days.toDouble(),
+                            min: 7,
+                            max: 30,
+                            divisions: 23,
+                            label: _days.toString(),
+                            onChanged: (v) => setState(() => _days = v.toInt()),
+                          ),
+                        ),
+                        Text(
+                          "$_days",
+                          style: TextStyle(
+                            color: AppColors.primaryText,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: MyTextField(
+                            controller: _taskController,
+                            hintText: "Enter task",
+                            height: h * 0.06,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Container(
+                          height: h * 0.06,
+                          width: h * 0.06,
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryText,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.add,
+                              color: AppColors.background,
+                            ),
+                            onPressed: () {
+                              final value = _taskController.text.trim();
+                              if (value.isNotEmpty) {
+                                setState(() {
+                                  _tasks.add(value);
+                                  _taskController.clear();
+                                });
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 20),
+                    Wrap(
+                      spacing: 8,
+                      children: _tasks
+                          .map((e) => Chip(
+                            label: Text(
+                              e,
+                              style: TextStyle(
+                                color: AppColors.background,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            backgroundColor: AppColors.primaryText,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ))
+                          .toList(),
+                    ),
+                    MyButton(text: "Save", onPressed: _addHabit),
+                  ],
                 ),
-                Text("$_days"),
-              ],
-            ),
-            TextField(
-              controller: _taskController,
-              decoration: InputDecoration(labelText: "Add Task"),
-              onSubmitted: (value) {
-                if (value.trim().isNotEmpty) {
-                  setState(() {
-                    _tasks.add(value.trim());
-                    _taskController.clear();
-                  });
-                }
-              },
-            ),
-            Wrap(
-              spacing: 8,
-              children: _tasks.map((e) => Chip(label: Text(e))).toList(),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                _addHabit();
-                router.pop();
-              }, 
-              child: Text(
-                "Save Habit",
               ),
             ),
           ],

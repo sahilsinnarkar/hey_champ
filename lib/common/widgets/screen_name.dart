@@ -11,7 +11,7 @@ class ScreenName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 30),
+      margin: const EdgeInsets.only(bottom: 20),
       padding: const EdgeInsets.all(5),
       alignment: Alignment.topLeft,
       child: Row(

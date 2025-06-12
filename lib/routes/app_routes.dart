@@ -4,8 +4,10 @@ import 'package:hey_champ_app/features/auth/application/auth_service.dart';
 import 'package:hey_champ_app/features/auth/presentation/signin_screen.dart';
 import 'package:hey_champ_app/features/auth/presentation/signup_screen.dart';
 import 'package:hey_champ_app/features/chatbot/presentation/chatbot_screen.dart';
+import 'package:hey_champ_app/features/daily_habit/application/habit_model.dart';
 import 'package:hey_champ_app/features/daily_habit/presentation/create_habit_screen.dart';
 import 'package:hey_champ_app/features/daily_habit/presentation/daily_haibit_tracker_list_screen.dart';
+import 'package:hey_champ_app/features/daily_habit/presentation/habit_detail_screen.dart';
 import 'package:hey_champ_app/features/expenses/presentation/expenses_list_screen.dart';
 import 'package:hey_champ_app/home/presentation/home_screen.dart';
 import 'dart:async';
@@ -106,7 +108,15 @@ final router = GoRouter(
     GoRoute(
       path: '/habit-detail-screen',
       name: 'habit-detail-screen',
-      builder: (context, state) => TodoScreen(),
+      builder: (context, state) {
+        final habit = state.extra;
+        if (habit == null || habit is! Habit) {
+          return const Scaffold(
+            body: Center(child: Text("Invalid habit data")),
+          );
+        }
+        return HabitDetailScreen(habit: habit);
+      },
     ),
     GoRoute(
       path: '/note-list-screen',

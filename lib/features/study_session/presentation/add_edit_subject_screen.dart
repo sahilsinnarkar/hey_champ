@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hey_champ_app/common/widgets/my_button.dart';
+import 'package:hey_champ_app/common/widgets/screen_name.dart';
+import 'package:hey_champ_app/core/constants/color_constants.dart';
 import 'package:hey_champ_app/features/study_session/application/subject_model.dart';
 import 'package:hey_champ_app/features/study_session/application/subject_controller.dart';
 import 'package:provider/provider.dart';
@@ -60,83 +63,126 @@ class _AddEditSubjectScreenState extends State<AddEditSubjectScreen> {
   @override
   Widget build(BuildContext context) {
     final isEditing = widget.subject != null;
+    final w = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      appBar: AppBar(title: Text(isEditing ? 'Edit Subject' : 'Add Subject')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Subject Name'),
-                validator: (value) =>
-                    value == null || value.trim().isEmpty ? 'Required' : null,
-              ),
-              const SizedBox(height: 16),
-
-              Text(
-                "Pick a Color",
-                style: Theme.of(context).textTheme.labelLarge,
-              ),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                children: Colors.primaries
-                    .take(8)
-                    .map(
-                      (color) => GestureDetector(
-                        onTap: () {
-                          setState(() => _selectedColor = color);
-                        },
-                        child: CircleAvatar(
-                          backgroundColor: color,
-                          radius: 20,
-                          child: _selectedColor == color
-                              ? const Icon(Icons.check, color: Colors.white)
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: AppColors.background,
+        body: Column(
+          children: [
+            ScreenName(name: isEditing ? 'Edit Subject' : 'Add Subject'),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                child: Form(
+                  key: _formKey,
+                  child: ListView(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(left: 10),
+                        width: w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            style: BorderStyle.solid,
+                            width: 2,
+                            color: AppColors.primaryText,
+                          ),
+                        ),
+                        child: TextFormField(
+                          controller: _nameController,
+                          style: TextStyle(
+                            color: AppColors.primaryText,
+                            fontSize: 15,
+                          ),
+                          validator: (value) =>
+                              value == null || value.trim().isEmpty
+                              ? 'Required'
                               : null,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Subject Name',
+                            hintStyle: TextStyle(
+                              color: AppColors.secondaryText,
+                              fontSize: 15,
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16,
+                            ),
+                          ),
                         ),
                       ),
-                    )
-                    .toList(),
-              ),
-              const SizedBox(height: 24),
 
-              Text(
-                "Pick an Icon",
-                style: Theme.of(context).textTheme.labelLarge,
-              ),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 12,
-                children: _iconChoices.map((icon) {
-                  return GestureDetector(
-                    onTap: () => setState(() => _selectedIcon = icon),
-                    child: CircleAvatar(
-                      backgroundColor: _selectedIcon == icon
-                          ? _selectedColor
-                          : Colors.grey[300],
-                      child: Icon(
-                        icon,
-                        color: _selectedIcon == icon
-                            ? Colors.white
-                            : Colors.black,
+                      const SizedBox(height: 20),
+
+                      Text(
+                        "Pick a Color",
+                        style: TextStyle(
+                          color: AppColors.primaryText,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 32),
+                      const SizedBox(height: 8),
+                      Wrap(
+                        spacing: 8,
+                        children: Colors.primaries
+                            .take(8)
+                            .map(
+                              (color) => GestureDetector(
+                                onTap: () {
+                                  setState(() => _selectedColor = color);
+                                },
+                                child: CircleAvatar(
+                                  backgroundColor: color,
+                                  radius: 20,
+                                  child: _selectedColor == color
+                                      ? const Icon(
+                                          Icons.check,
+                                          color: Colors.white,
+                                        )
+                                      : null,
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                      const SizedBox(height: 24),
 
-              ElevatedButton.icon(
-                icon: Icon(isEditing ? Icons.save : Icons.add),
-                label: Text(isEditing ? 'Save Changes' : 'Add Subject'),
-                onPressed: _saveSubject,
+                      Text(
+                        "Pick an Icon",
+                        style: TextStyle(
+                          color: AppColors.primaryText,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Wrap(
+                        spacing: 12,
+                        children: _iconChoices.map((icon) {
+                          return GestureDetector(
+                            onTap: () => setState(() => _selectedIcon = icon),
+                            child: CircleAvatar(
+                              backgroundColor: _selectedIcon == icon
+                                  ? _selectedColor
+                                  : Colors.grey[300],
+                              child: Icon(
+                                icon,
+                                color: _selectedIcon == icon
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                      const SizedBox(height: 32),
+                      MyButton(text: "Add Subject", onPressed: _saveSubject),
+                    ],
+                  ),
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
