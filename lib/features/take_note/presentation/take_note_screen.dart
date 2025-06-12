@@ -7,7 +7,6 @@ import 'package:hey_champ_app/core/constants/color_constants.dart';
 import 'package:hey_champ_app/features/take_note/application/note_model.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
-
 import '../application/take_note_controller.dart';
 
 class TakeNoteScreen extends StatefulWidget {

@@ -15,7 +15,7 @@
 
     <!-- APP -->
     <application
-        android:label="hey_champ_app"
+        android:label="Hey Champ"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true">
