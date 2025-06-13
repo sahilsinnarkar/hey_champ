@@ -98,8 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Image.asset(
                     "assets/images/trophy.png",
                     fit: BoxFit.contain,
-                    width: 130,
-                    height: 130,
+                    width: w * 0.3,
+                    height: h * 0.3,
                   ),
                 ],
               ),
@@ -196,15 +196,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ],
                                 ),
                               ),
-                              SizedBox(
-                                width: w * 0.3,
-                                height: h * 0.3,
-                                child: Image.asset(
-                                  "assets/images/bot.jpg",
-                                  fit: BoxFit.contain,
-                                  width: 100,
-                                  height: 100,
-                                ),
+                              Image.asset(
+                                "assets/images/bot.jpg",
+                                fit: BoxFit.contain,
+                                width: w * 0.25,
+                                height: h * 0.25,
                               ),
                             ],
                           ),
